@@ -1,6 +1,7 @@
 package module;
 
 import java.awt.Point;
+import java.util.ArrayList;
 
 public class SnakePoint extends Point {
 	/**
@@ -9,7 +10,7 @@ public class SnakePoint extends Point {
 	private static final long serialVersionUID = -2309307192399764285L;
 	private int direction = 3; // 0 1 2 3 - UP LEFT DOWN RIGHT
 	private int radius = 5, maxX, maxY;
-	 
+	public ArrayList<Point> moveHistory = new ArrayList<>(); 
 
 	public int getRadius() {
 		return radius;
@@ -19,8 +20,8 @@ public class SnakePoint extends Point {
 		this.radius = radius;
 	}
 
-	private final int X_FIX_VAL[] = { 0, -radius * 2, 0, radius * 2 };
-	private final int Y_FIX_VAL[] = { -radius * 2, 0, radius * 2, 0 };
+	private final int X_FIX_VAL[] = { 0, -1, 0, 1 };
+	private final int Y_FIX_VAL[] = { -1, 0, 1, 0 };
 
 	public SnakePoint(int x, int y, int maxX, int maxY) {
 		this.x = x;
@@ -48,10 +49,15 @@ public class SnakePoint extends Point {
 		if ((direction + this.direction != 2) && (direction + this.direction != 4))
 			this.direction = direction;
 	}
+	
+	public double pytagoreDistance(Point a, Point b) {
+		return Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2));
+	}
+	
 	public boolean smashed(SnakePoint a) {
-		return ((this.x == a.x) && (this.y == a.y));
+		return (pytagoreDistance(this, a) < radius * 2);
 	}
 	public boolean smashed(Food a) {
-		return ((this.x == a.x) && (this.y == a.y));
+		return (pytagoreDistance(this, a) < radius * 2);
 	}
 }

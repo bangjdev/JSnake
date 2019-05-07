@@ -15,11 +15,15 @@ public class GamePanel extends JPanel implements KeyListener {
 	 * 
 	 */
 	private static final long serialVersionUID = -4280895825532149728L;
-	private int fps = 15;
+	private int fps = 100;
 	private int delay = 1000 / fps;
 	private SnakeObject snake;
 	private Food apple;
 	private boolean catching = true;
+
+	public void setCatching(boolean catching) {
+		this.catching = catching;
+	}
 
 	public SnakeObject getSnake() {
 		return snake;
@@ -52,7 +56,7 @@ public class GamePanel extends JPanel implements KeyListener {
 			public void actionPerformed(ActionEvent e) {
 				Toolkit.getDefaultToolkit().sync();
 				gameUpdate();
-				redraw();				
+				redraw();	
 				catching = true;
 			}
 		});
@@ -66,7 +70,7 @@ public class GamePanel extends JPanel implements KeyListener {
 	}
 
 	private void gameUpdate() {
-		snake.move();
+		snake.move(this);
 		if (snake.checkCollision()) {
 			gameOver();
 		}								
